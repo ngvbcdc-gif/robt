@@ -1,0 +1,23 @@
+ {
+  "name": "robot-club",
+  "version": "1.0.0",
+  "description": "منصة نادي الروبوت - تسجيل الأعضاء، النقاط، لوحة المشرف، ترتيب الأعضاء",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "robot",
+    "club",
+    "students",
+    "points",
+    "leaderboard"
+  ],
+  "author": "نادي الروبوت",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  }
+}

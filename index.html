@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>تسجيل الدخول</h1>
+  <input id="university_id" placeholder="الرقم الجامعي">
+  <button onclick="login()">دخول</button>
+  <p>لا تملك حساب؟ <a href="signup.html">سجل الآن</a></p>
+  <p id="msg"></p>
+</div>
+<script>
+async function login(){
+  const university_id = document.getElementById('university_id').value;
+  let res = await fetch('/login',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({university_id})
+  });
+  let data = await res.json();
+  if(data.status==='ok'){
+    if(data.user.role==='مشرف') window.location.href='admin.html?university_id='+university_id;
+    else window.location.href='profile.html?university_id='+university_id;
+  } else { document.getElementById('msg').innerText = data.message; }
+}
+</script>
+</body>
+</html>

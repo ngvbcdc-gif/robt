@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة الصدارة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>🏆 ترتيب الأعضاء حسب النقاط</h1>
+  <table id="leaderboard">
+    <thead>
+      <tr>
+        <th>المركز</th>
+        <th>الاسم</th>
+        <th>البريد</th>
+        <th>النقاط</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<script>
+async function loadLeaderboard() {
+  let res = await fetch('/allUsers');
+  let data = await res.json();
+  if (data.status === 'ok') {
+    data.users.sort((a,b) => b.points - a.points);
+    const tbody = document.querySelector("#leaderboard tbody");
+    tbody.innerHTML = "";
+    data.users.forEach((u,index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${index+1}</td><td>${u.name}</td><td>${u.email}</td><td>${u.points}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+loadLeaderboard();
+</script>
+</body>
+</html>

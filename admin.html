@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة المشرف</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h1>لوحة التحكم</h1>
+  <input id="university_id" placeholder="رقم العضو الجامعي">
+  <input id="points" type="number" placeholder="عدد النقاط">
+  <button onclick="addPoints()">إضافة نقاط</button>
+  <p id="msg"></p>
+  <h2>قائمة الأعضاء</h2>
+  <ul id="members"></ul>
+  <a href="leaderboard.html">عرض ترتيب النقاط 🏆</a>
+</div>
+<script>
+async function addPoints(){
+  const university_id=document.getElementById('university_id').value;
+  const points=parseInt(document.getElementById('points').value);
+  let res=await fetch('/addPoints',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({university_id,points})
+  });
+  let data=await res.json();
+  document.getElementById('msg').innerText=data.message;
+  loadUsers();
+}
+async function loadUsers(){
+  let res=await fetch('/allUsers');
+  let data=await res.json();
+  if(data.status==='ok'){
+    const list=document.getElementById('members');
+    list.innerHTML="";
+    data.users.forEach(u=>{
+      const li=document.createElement('li');
+      li.innerText=`${u.name} - ${u.university_id} 🏆 ${u.points}`;
+      list.appendChild(li);
+    });
+  }
+}
+loadUsers();
+</script>
+</
